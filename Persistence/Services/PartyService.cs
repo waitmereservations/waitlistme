@@ -15,7 +15,7 @@ namespace Waitlistme.Persistence.Services
             this._partyRepository = partyRepository;
         }
 
-        public async Task<IEnumerable<Party>> ListAsync()
+        public async Task<IEnumerable<Party>> ListParty()
         { 
             return await _partyRepository.ListAsync();
         }

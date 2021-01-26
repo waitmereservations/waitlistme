@@ -1,8 +1,10 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Waitlistme.Domain.Models;
 using Waitlistme.Domain.Services;
+using Waitlistme.Resources;
 
 namespace Waitlistme.Controllers
 {
@@ -12,17 +14,19 @@ namespace Waitlistme.Controllers
     {
 
         private readonly IPartyService _partyService;
-        
-        public PartyController(IPartyService partyService)
+		private readonly IMapper _mapper;
+
+		public PartyController(IPartyService partyService, IMapper mapper)
         {
             _partyService = partyService;   
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public ActionResult <IEnumerable<Party>> GetAllAsync()
+        public ActionResult <IEnumerable<PartyReadDto>> GetAllParties()
         {
-            var parties = _partyService.ListAsync();
-            return Ok(parties);
+            var parties = _partyService.ListParty();
+            return Ok(_mapper.Map<PartyReadDto>(parties));
         }
     }
 }

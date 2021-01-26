@@ -16,6 +16,7 @@ using Waitlistme.Domain.Services;
 using Waitlistme.Persistence.Contexts;
 using Waitlistme.Persistence.Repositories;
 using Waitlistme.Persistence.Services;
+using AutoMapper;
 
 namespace Waitlistme
 {
@@ -36,6 +37,7 @@ namespace Waitlistme
                 options.UseSqlServer(Configuration.GetConnectionString("WaitlistmeConnection"));
             });
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IPartyService, PartyService>();
             services.AddScoped<IPartyRepository, PartyRepository>();
         }

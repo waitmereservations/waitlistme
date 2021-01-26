@@ -6,6 +6,6 @@ namespace Waitlistme.Domain.Services
 {
     public interface IPartyService
     {
-         Task<IEnumerable<Party>> ListAsync();
+         Task<IEnumerable<Party>> ListParty();
     }
 }
