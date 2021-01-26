@@ -5,9 +5,12 @@ using System.Collections.Generic;
 
 namespace Waitlistme.Domain.Models
 {
-    public partial class PartyType
+    public partial class DiningTable
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int TableStatusId { get; set; }
+        public int? Capacity { get; set; }
+        public DateTime DateCreated { get; set; }
     }
 }

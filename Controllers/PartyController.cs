@@ -7,6 +7,7 @@ using Waitlistme.Domain.Services;
 namespace Waitlistme.Controllers
 {
     [Route("/api/[controller]")]
+    [ApiController]
     public class PartyController : Controller
     {
 
@@ -18,10 +19,10 @@ namespace Waitlistme.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Party>> GetAllAsync()
+        public ActionResult <IEnumerable<Party>> GetAllAsync()
         {
-            var parties = await _partyService.ListAsync();
-            return parties;
+            var parties = _partyService.ListAsync();
+            return Ok(parties);
         }
     }
 }

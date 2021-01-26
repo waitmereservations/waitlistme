@@ -15,7 +15,7 @@ using Waitlistme.Domain.Repositories;
 using Waitlistme.Domain.Services;
 using Waitlistme.Persistence.Contexts;
 using Waitlistme.Persistence.Repositories;
-using Waitlistme.Services;
+using Waitlistme.Persistence.Services;
 
 namespace Waitlistme
 {

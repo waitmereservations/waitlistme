@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Waitlistme.Domain.Models;
@@ -18,31 +18,20 @@ namespace Waitlistme.Persistence.Contexts
         {
         }
 
-        public virtual DbSet<FloorTable> FloorTables { get; set; }
+        public virtual DbSet<DiningTable> DiningTables { get; set; }
+        public virtual DbSet<DiningTableStatus> DiningTableStatuses { get; set; }
         public virtual DbSet<Party> Parties { get; set; }
+        public virtual DbSet<PartyDiningTable> PartyDiningTables { get; set; }
         public virtual DbSet<PartyStatus> PartyStatuses { get; set; }
-        public virtual DbSet<PartyTableLog> PartyTableLogs { get; set; }
         public virtual DbSet<PartyType> PartyTypes { get; set; }
-        public virtual DbSet<TableStatus> TableStatuses { get; set; }
-
-        /*
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=localhost;Database=Waitlistme;User ID=sa;Password=TutoTutoTut0;");
-            }
-        }
-        */
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
-            modelBuilder.Entity<FloorTable>(entity =>
+            modelBuilder.Entity<DiningTable>(entity =>
             {
-                entity.ToTable("FloorTable");
+                entity.ToTable("DiningTable");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -57,21 +46,19 @@ namespace Waitlistme.Persistence.Contexts
                     .HasMaxLength(50)
                     .HasColumnName("name");
 
-                entity.Property(e => e.PartyId).HasColumnName("partyId");
-
                 entity.Property(e => e.TableStatusId).HasColumnName("tableStatusId");
+            });
 
-                entity.HasOne(d => d.Party)
-                    .WithMany(p => p.FloorTables)
-                    .HasForeignKey(d => d.PartyId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_FloorTable_Party");
+            modelBuilder.Entity<DiningTableStatus>(entity =>
+            {
+                entity.ToTable("DiningTableStatus");
 
-                entity.HasOne(d => d.TableStatus)
-                    .WithMany(p => p.FloorTables)
-                    .HasForeignKey(d => d.TableStatusId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_FloorTable_TableStatus");
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("name");
             });
 
             modelBuilder.Entity<Party>(entity =>
@@ -91,8 +78,6 @@ namespace Waitlistme.Persistence.Contexts
                 entity.Property(e => e.FirstName)
                     .HasMaxLength(50)
                     .HasColumnName("firstName");
-
-                entity.Property(e => e.FloorTableId).HasColumnName("floorTableId");
 
                 entity.Property(e => e.LastName)
                     .HasMaxLength(50)
@@ -115,24 +100,21 @@ namespace Waitlistme.Persistence.Contexts
                 entity.Property(e => e.ReservationTime)
                     .HasColumnType("date")
                     .HasColumnName("reservationTime");
+            });
 
-                entity.HasOne(d => d.FloorTable)
-                    .WithMany(p => p.Parties)
-                    .HasForeignKey(d => d.FloorTableId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Party_FloorTable");
+            modelBuilder.Entity<PartyDiningTable>(entity =>
+            {
+                entity.ToTable("PartyDiningTable");
 
-                entity.HasOne(d => d.PartyStatus)
-                    .WithMany(p => p.Parties)
-                    .HasForeignKey(d => d.PartyStatusId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Party_PartyStatus");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.HasOne(d => d.PartyType)
-                    .WithMany(p => p.Parties)
-                    .HasForeignKey(d => d.PartyTypeid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Party_PartyType");
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("date")
+                    .HasColumnName("dateCreated");
+
+                entity.Property(e => e.DiningTableId).HasColumnName("diningTableId");
+
+                entity.Property(e => e.PartyId).HasColumnName("partyId");
             });
 
             modelBuilder.Entity<PartyStatus>(entity =>
@@ -147,60 +129,9 @@ namespace Waitlistme.Persistence.Contexts
                     .HasColumnName("name");
             });
 
-            modelBuilder.Entity<PartyTableLog>(entity =>
-            {
-                entity.ToTable("PartyTableLog");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.ActionMsg)
-                    .HasMaxLength(50)
-                    .HasColumnName("actionMsg");
-
-                entity.Property(e => e.DateCreated)
-                    .HasColumnType("date")
-                    .HasColumnName("dateCreated");
-
-                entity.Property(e => e.PartyId).HasColumnName("partyId");
-
-                entity.Property(e => e.TableId).HasColumnName("tableId");
-
-                entity.Property(e => e.TableStatusId).HasColumnName("tableStatusId");
-
-                entity.HasOne(d => d.Party)
-                    .WithMany(p => p.PartyTableLogs)
-                    .HasForeignKey(d => d.PartyId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PartyTableLog_Party");
-
-                entity.HasOne(d => d.Table)
-                    .WithMany(p => p.PartyTableLogs)
-                    .HasForeignKey(d => d.TableId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PartyTableLog_FloorTable");
-
-                entity.HasOne(d => d.TableStatus)
-                    .WithMany(p => p.PartyTableLogs)
-                    .HasForeignKey(d => d.TableStatusId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PartyTableLog_TableStatusID");
-            });
-
             modelBuilder.Entity<PartyType>(entity =>
             {
                 entity.ToTable("PartyType");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .HasColumnName("name");
-            });
-
-            modelBuilder.Entity<TableStatus>(entity =>
-            {
-                entity.ToTable("TableStatus");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 

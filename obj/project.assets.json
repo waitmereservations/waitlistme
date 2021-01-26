@@ -5825,19 +5825,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/guest/.nuget/packages/": {}
+    "/Users/luistong/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/guest/Documents/Projects/Waitlistme/Waitlistme.csproj",
+      "projectUniqueName": "/Users/luistong/Projects/waitlistme/Waitlistme.csproj",
       "projectName": "Waitlistme",
-      "projectPath": "/Users/guest/Documents/Projects/Waitlistme/Waitlistme.csproj",
-      "packagesPath": "/Users/guest/.nuget/packages/",
-      "outputPath": "/Users/guest/Documents/Projects/Waitlistme/obj/",
+      "projectPath": "/Users/luistong/Projects/waitlistme/Waitlistme.csproj",
+      "packagesPath": "/Users/luistong/.nuget/packages/",
+      "outputPath": "/Users/luistong/Projects/waitlistme/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/guest/.nuget/NuGet/NuGet.Config"
+        "/Users/luistong/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"

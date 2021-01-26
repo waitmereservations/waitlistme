@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Waitlistme.Domain.Models
 {
-    public partial class PartyType
+    public partial class DiningTableStatus
     {
         public int Id { get; set; }
         public string Name { get; set; }

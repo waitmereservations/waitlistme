@@ -4,7 +4,7 @@ using Waitlistme.Domain.Models;
 using Waitlistme.Domain.Services;
 using Waitlistme.Domain.Repositories;
 
-namespace Waitlistme.Services
+namespace Waitlistme.Persistence.Services
 {
     public class PartyService : IPartyService
     {
